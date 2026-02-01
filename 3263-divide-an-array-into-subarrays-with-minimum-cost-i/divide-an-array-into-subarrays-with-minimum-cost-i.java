@@ -1,15 +1,17 @@
 class Solution {
     public int minimumCost(int[] nums) {
-        int n = nums.length;
-        int ans = Integer.MAX_VALUE;
+        int min1 = Integer.MAX_VALUE;
+        int min2 = Integer.MAX_VALUE;
 
-        // i = start of 2nd subarray
-        // j = start of 3rd subarray
-        for (int i = 1; i < n - 1; i++) {
-            for (int j = i + 1; j < n; j++) {
-                ans = Math.min(ans, nums[0] + nums[i] + nums[j]);
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] < min1) {
+                min2 = min1;
+                min1 = nums[i];
+            } else if (nums[i] < min2) {
+                min2 = nums[i];
             }
         }
-        return ans;
+
+        return nums[0] + min1 + min2;
     }
 }
