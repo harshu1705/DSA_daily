@@ -1,20 +1,19 @@
+import java.util.*;
+
 class Solution {
     public int numberOfSpecialChars(String word) {
-        int[] freq = new int[123];
+        Set<Character> set = new HashSet<>();
+
+        for (char ch : word.toCharArray()) {
+            set.add(ch);
+        }
+
         int count = 0;
 
-        for(char ch : word.toCharArray()) {
-            freq[ch]++;
-
-            // Current ch is lower case , then look for upper case
-            if(ch >= 'a' && ch <= 'z') {
-                char capital = (char)(ch - 'a' + 'A');
-                if(freq[ch] == 1 && freq[capital] > 0) // lowercase just appeared for first time
-                    count++;
-            } else { // Current ch is upper case , then look for lower case
-                char lower = (char)(ch - 'A' + 'a');
-                if(freq[ch] == 1 && freq[lower] > 0) // uppercase just appeared for first time
-                    count++;
+        for (char ch = 'a'; ch <= 'z'; ch++) {
+            if (set.contains(ch) &&
+                set.contains(Character.toUpperCase(ch))) {
+                count++;
             }
         }
 
