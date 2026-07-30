@@ -1,26 +1,37 @@
+import java.util.Arrays;
+
 class Solution {
     public int minimumPushes(String word) {
 
-        HashMap<Integer, Integer> map = new HashMap<>();
+        // Store frequency of each character
+        int[] freq = new int[26];
+
+        // Count frequency
+        for (char ch : word.toCharArray()) {
+            freq[ch - 'a']++;
+        }
+
+        // Sort in ascending order
+        Arrays.sort(freq);
 
         int result = 0;
-        int assignKey = 2;
+        int index = 0;
 
-        for (char ch : word.toCharArray()) {
+        // Traverse from highest frequency
+        for (int i = 25; i >= 0; i--) {
 
-            // After key 9, start again from key 2
-            if (assignKey > 9) {
-                assignKey = 2;
-            }
+            // No more characters
+            if (freq[i] == 0)
+                break;
 
-            // Increase number of letters assigned to this key
-            map.put(assignKey, map.getOrDefault(assignKey, 0) + 1);
+            // First 8 letters -> 1 push
+            // Next 8 letters -> 2 pushes
+            // Next 8 letters -> 3 pushes
+            int presses = index / 8 + 1;
 
-            // Current count = pushes required
-            result += map.get(assignKey);
+            result += presses * freq[i];
 
-            // Move to next key
-            assignKey++;
+            index++;
         }
 
         return result;
