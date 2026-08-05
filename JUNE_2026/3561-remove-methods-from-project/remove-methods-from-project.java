@@ -1,0 +1,80 @@
+import java.util.*;
+
+class Solution {
+
+    List<Integer>[] graph;
+    boolean[] suspicious;
+
+    private void dfs(int node) {
+
+        suspicious[node] = true;
+
+        for (int next : graph[node]) {
+
+            if (!suspicious[next]) {
+
+                dfs(next);
+
+            }
+        }
+    }
+
+    public List<Integer> remainingMethods(int n, int k, int[][] invocations) {
+
+        graph = new ArrayList[n];
+
+        for (int i = 0; i < n; i++) {
+
+            graph[i] = new ArrayList<>();
+
+        }
+
+        // Build Graph
+        for (int[] edge : invocations) {
+
+            graph[edge[0]].add(edge[1]);
+
+        }
+
+        suspicious = new boolean[n];
+
+        // Find suspicious methods
+        dfs(k);
+
+        // Check if outside method invokes suspicious method
+        for (int[] edge : invocations) {
+
+            int from = edge[0];
+            int to = edge[1];
+
+            if (!suspicious[from] && suspicious[to]) {
+
+                List<Integer> ans = new ArrayList<>();
+
+                for (int i = 0; i < n; i++) {
+
+                    ans.add(i);
+
+                }
+
+                return ans;
+
+            }
+        }
+
+        // Remove suspicious methods
+        List<Integer> ans = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+
+            if (!suspicious[i]) {
+
+                ans.add(i);
+
+            }
+
+        }
+
+        return ans;
+    }
+}
