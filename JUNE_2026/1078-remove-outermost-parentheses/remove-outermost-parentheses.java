@@ -1,0 +1,33 @@
+class Solution {
+    public String removeOuterParentheses(String s) {
+
+        StringBuilder result = new StringBuilder();
+        int depth = 0;
+
+        for (char ch : s.toCharArray()) {
+
+            if (ch == '(') {
+
+                // If depth > 0, this is NOT the outermost '('
+                if (depth > 0) {
+                    result.append(ch);
+                }
+
+                // Enter one level deeper
+                depth++;
+
+            } else {
+
+                // Leave the current level
+                depth--;
+
+                // If depth > 0, this is NOT the outermost ')'
+                if (depth > 0) {
+                    result.append(ch);
+                }
+            }
+        }
+
+        return result.toString();
+    }
+}
